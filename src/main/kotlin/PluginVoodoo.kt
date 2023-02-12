@@ -9,6 +9,7 @@ import net.mamoe.mirai.message.data.PlainText
 import net.mamoe.mirai.utils.info
 import org.AlerHughes.Command.*
 import org.AlerHughes.Model.Tarot
+import org.AlerHughes.Model.Artifact
 import net.mamoe.mirai.console.command.getGroupOrNull
 import net.mamoe.mirai.contact.Contact.Companion.sendImage
 import net.mamoe.mirai.message.data.At
@@ -22,9 +23,9 @@ object PluginVoodoo : KotlinPlugin(
     JvmPluginDescription(
         id = "org.AlerHughes.plugin-voodoo",
         name = "PluginVoodoo",
-        version = "1.6.1",
+        version = "1.6.2",
     ) {
-        author("AlerHughes")
+        author("AlerHughes, Civansun")
     }
 ) {
     override fun onEnable() {
@@ -36,6 +37,7 @@ object PluginVoodoo : KotlinPlugin(
         CommandManager.registerCommand(EverydayLuckCommand)
         CommandManager.registerCommand(TarotCommand)
         CommandManager.registerCommand(DivinatorySymbolCommand)
+        CommandManager.registerCommand(ArtifactCommand)
         CommandManager.registerCommand(BanCommand)
         CommandManager.registerCommand(RandomBanCommand)
         CommandManager.registerCommand(AllReleaseCommand)
@@ -60,6 +62,13 @@ object PluginVoodoo : KotlinPlugin(
                 val localDate = LocalDate.now()
                 val luck = Math.abs(Random(sender.id + localDate.year + localDate.monthValue + localDate.dayOfMonth).nextInt()) % 100
                 subject.sendMessage(At(sender) + PlainText("的今日运势为:" + luck))
+            }
+
+             "今日体力"{
+                 val artifact: Artifact = GetRandomArtifact()
+                 val info:String = GetInfoByArtifact(artifact)
+                 subject.sendMessage(At(sender) + PlainText("今天推荐刷取："+ info))
+
             }
         }
     }
